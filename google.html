@@ -1,38 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html>
-<head>
-<meta charset="UTF-8">
-<meta name ="google-signin-client_id" content ="441548302784-j9anubmatpdqc9cqucpvou070s1cqv85.apps.googleusercontent.com">
-<title>Title of the document</title>
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-</head>
+	<head>
+		<title>Page Title</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="initial-scale=1.0">
+		<meta name="google-site-verification" content="67cBtbN87UznY1DrlYrTZ8TbFsc4DG-ctqKivr5r8TY" />
+	</head>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	
+  <script src="https://apis.google.com/js/api:client.js"></script>
+  <script src="oauthGoogle.js"></script>
+	<body>
+		<button id="googleLoginBtn">google 登入</button>
+	</body>
+	<!--
+	https://blog.ciao.idv.tw/article/1552973657316921
 
-<body>
-  <div class="g-signin2" data-onsuccess="onSignIn"></div>
-  <br><br>
-
-  <button class="btn btn-danger" type="button" onclick="signOut()">
-      Sign Out
-  </button>
-  <script>
-    //https://blog.ciao.idv.tw/article/1552973657316921
-    //https://developers.google.com/identity/sign-in/web/sign-ins
-    function onSignIn(googleUser) {
-        var profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId());
-        console.log('Name: ' + profile.getName());
-        console.log('ImageUrl: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail());
-        console.log('token' + googleUser.getAuthResponse().id_token);
-    }
-
-    function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function() {
-            console.log('User Sign Out');
-        });
-    }
-  </script>
-</body>
-
+	https://developers.google.com/identity/sign-in/web/server-side-flow
+	https://console.developers.google.com/
+	-->
+	
+	<script>
+	var googleLogin = new OauthGoogle("441548302784-j9anubmatpdqc9cqucpvou070s1cqv85.apps.googleusercontent.com");
+	$(function(){
+		//googleLogin.getStatus();//監聽狀態
+		googleLogin.setLoginButton("googleLoginBtn",function(googleUser){
+				//googleLogin.getGoogleUser()取得使用者資料(亦可透過傳回值)
+		})
+	})
+	//	googleLogin.signOut(function(){
+	//		console.log("登出")
+	//	})
+	
+	</script>
+	
+	
 </html>

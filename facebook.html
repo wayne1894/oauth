@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>無標題文件</title>
+</head>
+<script src="js/jquery-1.9.1.min.js"></script>
+<div id="fb-root"></div>
+<script>
+var me
+
+
+(function(d, debug){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/zh_TW/all" + (debug ? "/debug" : "") + ".js"; // 有更改zh_TW
+     ref.parentNode.insertBefore(js, ref);
+}(document, /*debug*/ false));
+
+window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '342992472466556', 
+      channelUrl : 'infometro.cc', 
+      status     : true, 
+      cookie     : true, 
+      xfbml      : true  
+    });
+};
+function 使用fb登入(type,location){
+ 	var parame='email,publish_stream,user_about_me,user_likes,user_birthday,user_status';
+    FB.login(function(response){
+	 if(response.authResponse){
+	 	me=response
+	 	var accessToken=response.authResponse.accessToken; //登入的key值
+		var uid=response.authResponse.userID;
+	 	取得自己的資訊();
+	 }
+    }, { scope: parame } ); // 設定 scope(使用者同意之權限) 參數
+}
+function 判斷fb_登入(){
+	FB.getLoginStatus(function(response) {	//取得FB登入狀態
+		if (response.status === 'connected') { //己經登入
+				me=response
+				var accessToken=response.authResponse.accessToken; //登入的key值
+				var uid=response.authResponse.userID;
+		} else if(status == 'not_authorized') {//己經登入，但是沒有同意你的app 
+			   使用fb登入();
+		} else { //尚未登入
+			   使用fb登入();
+		}
+	});
+}
+
+function 取得自己的資訊(){
+        FB.api('/me', function(response) {
+       		alert(JSON.stringify(response));
+       });
+}
+function 取得某人的資訊(fb_id){
+       FB.api("/"+fb_id+"?fields=id,name,picture", function(response) {
+		   //response_.picture.data.url
+		   //response_.name 
+		   alert(JSON.stringify(response));
+       });
+}
+function 取得好友的資訊(){
+
+		FB.api('/me/friends', function(response){
+				//alert(JSON.stringify(response.data))  //fb要使用data
+				var j=0
+				for (var i in response.data) {
+					//取得某人的資訊(response.data[i].id))
+				}//for (var i in response.data) {
+			});
+}
+$(window).load(function(){
+	//判斷fb_登入()
+	//取得某人的資訊('259257317459501')
+});
+
+
+</script>
+
+
+<body>
+<a href="javascript:使用fb登入();">註冊</a>
+<a href="javascript:取得自己的資訊();">取得自己的資訊</a>
+<a href="javascript:取得好友的資訊();">取得好友的資訊</a>
+</body>
+</html>
